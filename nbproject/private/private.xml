@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/admin.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/connectDB/DBInfor.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/dal/CustomerDAO.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/customer/controller/ForgotPassword.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/guest/controller/ListProductGuest.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/index.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/guest/controller/ValidateOtpNewAccount.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/login.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/customer/controller/LoginGoogle.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/customer/controller/ValidateOtp.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/guest/controller/RegisterServlet.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/forgotPassword.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/customer.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/OtpNewAccount.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/customer/controller/NewPassword.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/newPassword.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/customer/controller/ListProductCustomer.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/src/java/customer/controller/LoginCustomer.java</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/guest.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/test1/FriedChicken/FriedChicken-duke/123/web/EnterOtp.jsp</file>
+        </group>
+    </open-files>
+</project-private>
