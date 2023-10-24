@@ -30,7 +30,7 @@
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="vendor/aos/aos.css" rel="stylesheet">
-  <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<!--  <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">-->
   <link href="vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -262,9 +262,8 @@
               <p>Menu</p>
               <h3>COMBO</h3>
             </div>
-              <<form id="form-dish" action="Detail" method="POST">
             <div class="row gy-5">
-                
+
                 <c:forEach var="dish" items="${lists}" >
               <div class="col-lg-4 menu-item">
                 <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
@@ -273,11 +272,11 @@
                   ${dish.getInfor()}
                 </p>
                 <p class="price">
-                  ${dish.getPrice()}
+                 ${dish.getPrice()} đ
                 </p>
               </div><!-- Menu Item -->
                </c:forEach>
-              </form> 
+
             </div>
                
           </div><!-- End Starter Menu Content -->

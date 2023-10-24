@@ -9,8 +9,9 @@ package connectDB;
  * @author HAU
  */
 public interface DBInfor {
-     public static String driverName="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    public static String url ="jdbc:sqlserver://127.0.0.1:1433;DatabaseName=KFCstore;encrypt=true;trustServerCertificate=true;";
-    public static String user="sa";
-    public static String pass ="admin";
+
+    public static String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    public static String url = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=KFCStore;encrypt=true;trustServerCertificate=true;";
+    public static String user = "sa";
+    public static String pass = "admin";
 }

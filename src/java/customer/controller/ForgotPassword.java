@@ -87,64 +87,74 @@ public class ForgotPassword extends HttpServlet {
 
         try {
             String email = request.getParameter("email");
-            CustomerDAO  customerDAO = new CustomerDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
             Customer customer = new Customer();
-           customer= customerDAO.getCustomerEmail(email);
-           if(customer != null)
-           {
-               RequestDispatcher dispatcher = null;
-            int otpvalue = 0;
-            final HttpSession mySession = request.getSession();
-            
-            if (email != null || !email.equals("")) {
-                // sending otp
-                Random rand = new Random();
-                otpvalue = rand.nextInt(1255650);
-                
-                String to = email;// change accordingly
-                
-                // Get the session object
-                Properties props = new Properties();
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.socketFactory.port", "465");
-                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.port", "465");
-                Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("anhhoangduc145@gmail.com", "wubnvlrqqzhmwjho");// Put your email
-                        // password here
+            customer = customerDAO.getCustomerEmail(email);
+            if (customer != null) {
+                RequestDispatcher dispatcher = null;
+                int otpvalue = 0;
+                final HttpSession mySession = request.getSession();
+
+                if (email != null || !email.equals("")) {
+                    // sending otp
+                    Random rand = new Random();
+                    otpvalue = rand.nextInt(1255650);
+
+                    String to = email;// change accordingly
+
+                    // Get the session object
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+                    Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("anhhoangduc145@gmail.com", "wubnvlrqqzhmwjho");// Put your email
+                            // password here
+                        }
+                    });
+                    // compose message
+                    try {
+                        MimeMessage message = new MimeMessage(session);
+                        message.setFrom(new InternetAddress(email));// change accordingly
+                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                        message.setSubject("Thông Tin Mã OTP Cho Quá Trình Thiết Lập Lại Mật Khẩu");
+                        message.setText("Chào bạn,\n"
+                                + "\n"
+                                + "Chúng tôi nhận được yêu cầu thiết lập lại mật khẩu từ bạn. Để tiếp tục quá trình này, vui lòng sử dụng mã OTP dưới đây:\n"
+                                + "\n"
+                                + "Mã OTP của bạn là: " + otpvalue + "\n"
+                                + "\n"
+                                + "Vui lòng nhập mã OTP này vào trang thiết lập lại mật khẩu để tiếp tục quá trình thiết lập lại mật khẩu. Xin lưu ý rằng mã OTP này sẽ hết hạn sau 100 giây.\n"
+                                + "\n"
+                                + "Nếu bạn không yêu cầu thiết lập lại mật khẩu, vui lòng liên hệ với chúng tôi ngay để bảo vệ tài khoản của bạn.\n"
+                                + "\n"
+                                + "Nếu bạn cần hỗ trợ hoặc có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với chúng tôi qua địa chỉ email [mail của mình] hoặc số điện thoại 0334807725.\n"
+                                + "\n"
+                                + "Trân trọng,\n"
+                                + "FastFood Store");
+                        // send message
+                        Transport.send(message);
+                        System.out.println("message sent successfully");
+                    } catch (MessagingException e) {
+                        throw new RuntimeException(e);
                     }
-                });
-                // compose message
-                try {
-                    MimeMessage message = new MimeMessage(session);
-                    message.setFrom(new InternetAddress(email));// change accordingly
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                    message.setSubject("Reset Password");
-                    message.setText("Your OTP is: " + otpvalue);
-                    // send message
-                    Transport.send(message);
-                    System.out.println("message sent successfully");
-                } catch (MessagingException e) {
-                    throw new RuntimeException(e);
+                    dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
+                    request.setAttribute("message", "OTP is sent to your email");
+
+                    mySession.setAttribute("otp", otpvalue);
+                    mySession.setAttribute("email", email);
+                    dispatcher.forward(request, response);
                 }
-                dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
-                request.setAttribute("message", "OTP is sent to your email");
-                
-                mySession.setAttribute("otp", otpvalue);
-                mySession.setAttribute("email", email);
-                dispatcher.forward(request, response);
-           }
-            
-                
-            } else 
-           {
+
+            } else {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("forgotPassword.jsp");
- request.setAttribute("message", "No email found!");
+                request.setAttribute("message", "No email found!");
                 dispatcher.forward(request, response);
-           }
+            }
         } catch (Exception ex) {
             Logger.getLogger(ForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -2,20 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Product;
+package admin.controller;
 
+import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Order;
+import model.OrderDetail;
 
 /**
  *
- * @author HAU
+ * @author Asus
  */
-public class Detail extends HttpServlet {
+public class ShowConfirmOrder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,10 +41,10 @@ public class Detail extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Detail</title>");            
+            out.println("<title>Servlet ShowConfirmOrder</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Detail at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ShowConfirmOrder at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +62,25 @@ public class Detail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            // Lấy dữ liệu từ cookie và giải mã ở phía servlet
+            List<Order> orderList = new ArrayList<>();
+            OrderDAO orderDAO = new OrderDAO();
+            orderList = orderDAO.getOrderByStatus("Pending");
+
+            request.setAttribute("orderList", orderList);
+            request.getRequestDispatcher("confirmOrder.jsp").forward(request, response);
+        } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage);
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            Logger.getLogger(ShowConfirmOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -69,7 +94,16 @@ public class Detail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("detail.jsp").forward(request, response);
+        try {
+            int id = Integer.parseInt(request.getParameter("customer_id"));
+            List<OrderDetail> detailList = new ArrayList<>();
+            OrderDAO orderDAO = new OrderDAO();
+            detailList = orderDAO.getItem(id);
+            request.setAttribute("detailList", detailList);
+            request.getRequestDispatcher("confirmOrder.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ShowConfirmOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

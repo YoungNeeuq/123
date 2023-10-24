@@ -9,6 +9,7 @@ import dal.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class UpdateProfileServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateProfileServlet</title>");            
+            out.println("<title>Servlet UpdateProfileServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateProfileServlet at " + request.getContextPath() + "</h1>");
@@ -62,14 +63,15 @@ public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         try {
+
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             CustomerDAO customerDAO = new CustomerDAO();
             Customer c = customerDAO.getCustomer(customer_id);
-            
+
             request.setAttribute("customer", c);
-            
-            
+
             request.getRequestDispatcher("updateCustomerProfile.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(updateServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,35 +89,57 @@ public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         try {
-        int customer_id = Integer.parseInt(request.getParameter("customer_id"));
-        String name = request.getParameter("username");
-        String infor = request.getParameter("password");
-      
-       
-        String comment = request.getParameter("email");
-        String role = request.getParameter("role");
 
-       
+            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
 
-        CustomerDAO customerDAO = new CustomerDAO();
-       customerDAO.editProfile(customer_id, name, infor, name, name, role);
+            CustomerDAO customerDAO = new CustomerDAO();
+            String username = customerDAO.getCustomer(customer_id).getUsername();
+            String password = request.getParameter("add").trim();
+            String encodedPassword = "";
+            String passStored = customerDAO.getCustomer(customer_id).getPassword().trim();
+            if (!password.equals(passStored)) {
+                Base64.Encoder encoder = Base64.getEncoder();
+                encodedPassword = encoder.encodeToString(password.getBytes());
+                String phoneNumber = request.getParameter("phone");
+                String address = request.getParameter("address");
+                // So sánh mật khẩu đã cung cấp với mật khẩu lưu trữ
 
-       
+                customerDAO.editProfile(customer_id, encodedPassword, phoneNumber, address);
+            } else {
+                String phoneNumber = request.getParameter("phone");
+                String address = request.getParameter("address");
+                // So sánh mật khẩu đã cung cấp với mật khẩu lưu trữ
 
-        response.sendRedirect("success.jsp");
-    } catch (NumberFormatException ex) {
-        // Xử lý lỗi số học (không thể chuyển đổi thành số).
-        response.sendRedirect("error.jsp");
-    } catch (SQLException ex) {
-        // Xử lý lỗi truy vấn cơ sở dữ liệu.
-        response.sendRedirect("error.jsp");
-        Logger.getLogger(updateServlet.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (Exception ex) {
-        // Xử lý lỗi khác (nếu có).
-        response.sendRedirect("error.jsp");
-        Logger.getLogger(updateServlet.class.getName()).log(Level.SEVERE, null, ex);
-    }
+                customerDAO.editProfile(customer_id, password, phoneNumber, address);
+            }
+
+            response.sendRedirect("Profile?acc=" + username);
+        } catch (NumberFormatException ex) {
+            // Xử lý lỗi số học (không thể chuyển đổi thành số).
+            String errorMessage = ex.getMessage();
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            // Xử lý lỗi truy vấn cơ sở dữ liệu.
+            String errorMessage = ex.getMessage();
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            Logger.getLogger(updateServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            // Xử lý lỗi khác (nếu có).
+            String errorMessage = ex.getMessage();
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            Logger.getLogger(updateServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

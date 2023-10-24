@@ -9,12 +9,14 @@ import dal.DishDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Dish;
 
 /**
@@ -40,7 +42,7 @@ public class ListProductCustomer extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListProductCustomer</title>");            
+            out.println("<title>Servlet ListProductCustomer</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ListProductCustomer at " + request.getContextPath() + "</h1>");
@@ -63,8 +65,18 @@ public class ListProductCustomer extends HttpServlet {
             throws ServletException, IOException {
         try {
             DishDAO dishDao = new DishDAO();
-            ArrayList<Dish> list = dishDao.getAll(); 
+            ArrayList<Dish> list = dishDao.getAll();
             request.setAttribute("listss", list); // request scope
+            ArrayList<Dish> breakfast = dishDao.getAll();
+            List<Dish> listTypeD = dishDao.getDishByType("d");
+            request.setAttribute("listTypeD", listTypeD);
+            request.setAttribute("break", breakfast);
+            List<Dish> listTypeC = dishDao.getDishByType("c");
+            request.setAttribute("listTypeC", listTypeC);
+            List<Dish> listPriceA = dishDao.getDishByPrice("ASC");
+            request.setAttribute("listPriceA", listPriceA);
+            List<Dish> listPriceD = dishDao.getDishByPrice("DESC");
+            request.setAttribute("listPriceD", listPriceD);
             request.getRequestDispatcher("customer.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ListProductServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,7 +94,27 @@ public class ListProductCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            // Lấy productId từ tham số trong URL
+            String productId = request.getParameter("dish_id");
+
+            // Chuyển đổi productId thành số nguyên (nếu cần)
+            int productIdInt = Integer.parseInt(productId);
+
+            // Bây giờ bạn có thể sử dụng productIdInt để xác định sản phẩm đã chọn
+            // Ví dụ: lấy sản phẩm từ danh sách sản phẩm
+            DishDAO dishDAO = new DishDAO();
+            Dish dish = dishDAO.getDish(productIdInt);
+
+            // Tiếp tục xử lý sản phẩm đã chọn (ví dụ: hiển thị thông tin sản phẩm)
+            request.setAttribute("selectedProduct", dish);
+            request.getRequestDispatcher("detail.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            // Xử lý lỗi nếu tham số productId không hợp lệ
+            response.sendRedirect("error.jsp");
+        } catch (Exception ex) {
+            Logger.getLogger(ListProductCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

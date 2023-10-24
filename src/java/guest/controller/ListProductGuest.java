@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Dish;
 
 /**
@@ -65,7 +66,11 @@ public class ListProductGuest extends HttpServlet {
         
        try {
             DishDAO dishDao = new DishDAO();
+            Dish dish = new Dish();
             ArrayList<Dish> list = dishDao.getAll(); 
+//            HttpSession session = request.getSession();
+//           String name = list.get(dish.getDish_id()).getName();
+//           session.setAttribute("name", name);
             request.setAttribute("lists", list); // request scope
             request.getRequestDispatcher("guest.jsp").forward(request, response);
         } catch (Exception ex) {

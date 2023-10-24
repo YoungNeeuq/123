@@ -9,10 +9,10 @@ import dal.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Base64;
-import java.util.Base64.Decoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,20 +84,32 @@ public class LoginCustomer extends HttpServlet {
             String passInput = request.getParameter("password");
             CustomerDAO customerDAO = new CustomerDAO();
             AdminDAO adminDAO = new AdminDAO();
-            Admin admin = adminDAO.getAdmin(userInput, passInput);          
-          
+            Admin admin = adminDAO.getAdmin(userInput, passInput);
             Base64.Encoder encoder = Base64.getEncoder();
-        String encodePass = encoder.encodeToString(passInput.getBytes());
-     
-        
+            String encodePass = encoder.encodeToString(passInput.getBytes());
             Customer customer = customerDAO.getCustomer(userInput, encodePass);
+            String role = "";
             if (customer != null) {
-               
                 // neu la customer thi chuyen toi trang hone.jsp
+                int customerId;
+                customerId = customer.getCustomer_id();
+                HttpSession session = request.getSession();
+                Customer c = customerDAO.getCustomer(userInput, passInput);
+                String username = customer.getUsername();
+                session.setAttribute("account", username);
+                Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customerId));
+                role = "c";
+                // Đặt thời gian sống của cookie, ví dụ: 30 ngày
+                customerIdCookie.setMaxAge(30 * 24 * 60 * 60);
+                request.setAttribute("role", role);
+                // Thêm cookie vào HTTP response
+                response.addCookie(customerIdCookie);
+                session.setAttribute("account", userInput);
                 response.sendRedirect("ListProductCustomer");
-                 request.setAttribute("account", userInput);
             } else if (admin != null) {
-               
+                role = "a";
+                request.setAttribute("role", role);
+
                 response.sendRedirect("ListProductServlet");
             } else {
                 request.setAttribute("tbsubmit", "Tài khoản hoặc mật khẩu không đúng");
@@ -106,7 +118,13 @@ public class LoginCustomer extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendRedirect("error.jsp");
+            String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage);
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(LoginCustomer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

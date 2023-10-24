@@ -41,7 +41,7 @@ public class NewPassword extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewPassword</title>");            
+            out.println("<title>Servlet NewPassword</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewPassword at " + request.getContextPath() + "</h1>");
@@ -75,40 +75,46 @@ public class NewPassword extends HttpServlet {
      */
     private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		String newPassword = request.getParameter("password");
-		String confPassword = request.getParameter("confPassword");
-                 Base64.Encoder encoder = Base64.getEncoder();
+        HttpSession session = request.getSession();
+        String newPassword = request.getParameter("password");
+        String confPassword = request.getParameter("confPassword");
+        Base64.Encoder encoder = Base64.getEncoder();
+        if (!newPassword.equals(confPassword)) {
+            request.setAttribute("tbsubmit", "Mật khẩu không khớp!");
+            // return back login.jsp using Servlet (method GET)
+
+            request.getRequestDispatcher("newPassword.jsp").forward(request, response);
+        }
         String encodePass = encoder.encodeToString(newPassword.getBytes());
-		RequestDispatcher dispatcher = null;
-		if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
+        RequestDispatcher dispatcher = null;
+        if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
 
-			try {
-				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-				Connection con = DriverManager.getConnection("jdbc:sqlserver://127.0.0.1:1433;DatabaseName=KFCstore;encrypt=true;trustServerCertificate=true;",
-                                        "sa",
-						"admin");
-				PreparedStatement pst = con.prepareStatement("update Customer set password = ? where  email   = ? ");
-				pst.setString(1, encodePass);
-				pst.setString(2, (String) session.getAttribute("email"));
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                Connection con = DriverManager.getConnection("jdbc:sqlserver://127.0.0.1:1433;DatabaseName=KFCstore;encrypt=true;trustServerCertificate=true;",
+                        "sa",
+                        "admin");
+                PreparedStatement pst = con.prepareStatement("update Customer set password = ? where  email   = ? ");
+                pst.setString(1, encodePass);
+                pst.setString(2, (String) session.getAttribute("email"));
 
-				int rowCount = pst.executeUpdate();
-				if (rowCount > 0) {
-					request.setAttribute("status", "resetSuccess");
-					dispatcher = request.getRequestDispatcher("login.jsp");
-				} else {
-					request.setAttribute("status", "resetFailed");
-					dispatcher = request.getRequestDispatcher("login.jsp");
-				}
-				dispatcher.forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+                int rowCount = pst.executeUpdate();
+                if (rowCount > 0) {
+                    request.setAttribute("status", "resetSuccess");
+                    dispatcher = request.getRequestDispatcher("login.jsp");
+                } else {
+                    request.setAttribute("status", "resetFailed");
+                    dispatcher = request.getRequestDispatcher("login.jsp");
+                }
+                dispatcher.forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Returns a short description of the servlet.
