@@ -13,7 +13,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Yummy Bootstrap Template - Index</title>
+  <title>FastFood</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -30,7 +30,7 @@
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="vendor/aos/aos.css" rel="stylesheet">
-  <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<!--  <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">-->
   <link href="vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -219,296 +219,209 @@
     </section><!-- End Stats Counter Section -->
 
     <!-- ======= Menu Section ======= -->
-    <section id="menu" class="menu">
-      <div class="container" data-aos="fade-up">
+   <section id="menu" class="menu">
+                <div class="container"  data-aos="fade-up">
 
-        <div class="section-header">
-          <h2>Our Menu</h2>
-          <p>Check Our <span>Yummy Menu</span></p>
-        </div>
+                    <div class="section-header">
+                        <h2>Our Menu</h2>
+                        <p>Check Our <span>FastFood Menu</span></p>
+                    </div>
 
-        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                    <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
 
-          <li class="nav-item">
-            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
-              <h4>Combo</h4>
-            </a>
-          </li><!-- End tab nav item -->
+                        <li class="nav-item">
+                            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
+                                <h4>Tất cả</h4>
+                            </a>
+                        </li><!-- End tab nav item -->
+                        <li class="nav-item">
+                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="d" data-bs-target="#menu-breakfast" >
+                                <h4>Món lẻ</h4>
+                            </a><!-- End tab nav item -->
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
-              <h4>Breakfast</h4>
-            </a><!-- End tab nav item -->
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
+                                <h4>Combo</h4>
+                            </a>
+                        </li><!-- End tab nav item -->
+                        <div style="display:flex;gap:0px; margin-left: 20px;">
+                        <div style="border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius); display: flex; padding: 0 5px;">
+                        <label style="margin: auto 0;
+    height: fit-content;">Giá :</label>
+                         <div style="display:flex; gap:1px;">
+                    <div class="nav-item" style="list-style-type: none;">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-caothap"
+                                style="border-bottom:none;width: 12px;">
+                                <h4> <i style="font-size:22px;" class="fa-solid fa-caret-down"></i></h4>
+                            </a>
+                        </div>
+                             </div>
+                        <div class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-thapcao"
+                               style="border-bottom:none;width: 12px; margin-top: 2px;">
+                                <h4> <i style="font-size:22px;" class="fa-solid fa-caret-up"></i></h4>
+                            </a>
+                        </div>
+                        </div>
+                        <!-- End tab nav item -->
+                        <form action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
+                            <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
+                            <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+                        </div>
+                    </ul>
+                    
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
-              <h4>Lunch</h4>
-            </a>
-          </li><!-- End tab nav item -->
+                    <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
-              <h4>Dinner</h4>
-            </a>
-          </li><!-- End tab nav item -->
+                        <div class="tab-pane fade active show" id="menu-starters">
 
-        </ul>
+                            <div class="tab-header text-center" id="">
+                                <p>Menu</p>
+                                <h3>Menu</h3>
+                            </div>
+                            <div class="row gy-5" id="content" >
+                                <c:forEach var="dish" items="${listss}" >
+                                    <div class="col-lg-4 menu-item" >
+                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                         <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
 
-        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+                                        <p class="ingredients">
+                                            ${dish.getInfor()}
+                                        </p>
+                                        <p class="price" >
+                                            ${dish.getPrice()} đ
+                                        </p>           
+                                    </div><!-- Menu Item -->
 
-          <div class="tab-pane fade active show" id="menu-starters">
+                                </c:forEach>
 
-            <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>COMBO</h3>
-            </div>
-              <<form id="form-dish" action="Detail" method="POST">
-            <div class="row gy-5">
-                
-                <c:forEach var="dish" items="${lists}" >
-              <div class="col-lg-4 menu-item">
-                <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                <h4>${dish.getName()}</h4>
-                <p class="ingredients">
-                  ${dish.getInfor()}
-                </p>
-                <p class="price">
-                  ${dish.getPrice()}
-                </p>
-              </div><!-- Menu Item -->
-               </c:forEach>
-              </form> 
-            </div>
-               
-          </div><!-- End Starter Menu Content -->
+                            </div>
 
-          <div class="tab-pane fade" id="menu-breakfast">
+                        </div><!-- End Starter Menu Content -->
 
-            <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>Breakfast</h3>
-            </div>
+                        <div class="tab-pane fade" id="menu-breakfast">
 
-            <div class="row gy-5">
+                            <div class="tab-header text-center">
+                                <p>Menu</p>
+                                <h3>Món lẻ</h3>
+                            </div>
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-1.png" class="glightbox"><img src="img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Magnam Tiste</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $5.95
-                </p>
-              </div><!-- Menu Item -->
+                            <div class="row gy-5" id="content1">
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-2.png" class="glightbox"><img src="img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Aut Luia</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $14.95
-                </p>
-              </div><!-- Menu Item -->
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-3.png" class="glightbox"><img src="img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Est Eligendi</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $8.95
-                </p>
-              </div><!-- Menu Item -->
+                                <c:forEach var="dish" items="${listTypeD}" >
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-4.png" class="glightbox"><img src="img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
+                                    <div class="col-lg-4 menu-item" >
+                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
+                                        <p class="ingredients">
+                                            ${dish.getInfor()}
+                                        </p>
+                                        <p class="price" >
+                                            $ ${dish.getPrice()}
+                                        </p>           
+                                    </div><!-- Menu Item -->
+                                </c:forEach>
+                                <c:if test="${empty listTypeD}">
+                                    <p>Danh sách món ăn hiện đang trống.</p>
+                                </c:if>
+                            </div>
+                        </div><!-- End Breakfast Menu Content -->
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-5.png" class="glightbox"><img src="img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
+                        <div class="tab-pane fade" id="menu-lunch">
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-6.png" class="glightbox"><img src="img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Laboriosam Direva</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $9.95
-                </p>
-              </div><!-- Menu Item -->
+                            <div class="tab-header text-center">
+                                <p>Menu</p>
+                                <h3>Combo</h3>
+                            </div>
 
-            </div>
-          </div><!-- End Breakfast Menu Content -->
+                            <div class="row gy-5" id="content2">
 
-          <div class="tab-pane fade" id="menu-lunch">
+                                <c:forEach var="dish" items="${listTypeC}" >
 
-            <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>Lunch</h3>
-            </div>
+                                    <div class="col-lg-4 menu-item" >
+                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
+                                        <p class="ingredients">
+                                            ${dish.getInfor()}
+                                        </p>
+                                        <p class="price" >
+                                            $ ${dish.getPrice()}
+                                        </p>           
+                                    </div><!-- Menu Item -->
+                                </c:forEach>
+                                <c:if test="${empty listTypeC}">
+                                    <p>Danh sách món ăn hiện đang trống.</p>
+                                </c:if>
 
-            <div class="row gy-5">
+                            </div>
+                        </div><!-- End Lunch Menu Content -->
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-1.png" class="glightbox"><img src="img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Magnam Tiste</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $5.95
-                </p>
-              </div><!-- Menu Item -->
+                        <div class="tab-pane fade" id="menu-caothap">
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-2.png" class="glightbox"><img src="img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Aut Luia</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $14.95
-                </p>
-              </div><!-- Menu Item -->
+                            <div class="tab-header text-center">
+                                <p>Menu</p>
+                                <h3>Giá cao - thấp</h3>
+                            </div>
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-3.png" class="glightbox"><img src="img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Est Eligendi</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $8.95
-                </p>
-              </div><!-- Menu Item -->
+                            <div class="row gy-5" id="content3">
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-4.png" class="glightbox"><img src="img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
+                                <c:forEach var="dish" items="${listPriceD}" >
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-5.png" class="glightbox"><img src="img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
+                                    <div class="col-lg-4 menu-item" >
+                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
+                                        <p class="ingredients">
+                                            ${dish.getInfor()}
+                                        </p>
+                                        <p class="price" >
+                                            $ ${dish.getPrice()}
+                                        </p>           
+                                    </div><!-- Menu Item -->
+                                </c:forEach>
+                                <c:if test="${empty listPriceD}">
+                                    <p>Danh sách món ăn hiện đang trống.</p>
+                                </c:if>
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-6.png" class="glightbox"><img src="img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Laboriosam Direva</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $9.95
-                </p>
-              </div><!-- Menu Item -->
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="menu-thapcao">
 
-            </div>
-          </div><!-- End Lunch Menu Content -->
+                            <div class="tab-header text-center">
+                                <p>Menu</p>
+                                <h3>Giá thấp - cao</h3>
+                            </div>
 
-          <div class="tab-pane fade" id="menu-dinner">
+                            <div class="row gy-5" id="content4">
 
-            <div class="tab-header text-center">
-              <p>Menu</p>
-              <h3>Dinner</h3>
-            </div>
+                                <c:forEach var="dish" items="${listPriceA}" >   
+      
+                                    <div class="col-lg-4 menu-item"  >
+                                        
+                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
+                                        <p class="ingredients">
+                                            ${dish.getInfor()}
+                                        </p>
+                                        <p class="price" >
+                                            $ ${dish.getPrice()}
+                                        </p>   
+                                    </div><!-- Menu Item -->
+                                </c:forEach>
+                                <c:if test="${empty listPriceA}">
+                                    <p>Danh sách món ăn hiện đang trống.</p>
+                                </c:if>
 
-            <div class="row gy-5">
+                            </div>
+                        </div>
+                        <!-- End Dinner Menu Content -->
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-1.png" class="glightbox"><img src="img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Magnam Tiste</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $5.95
-                </p>
-              </div><!-- Menu Item -->
+                    </div>
 
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-2.png" class="glightbox"><img src="img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Aut Luia</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $14.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-3.png" class="glightbox"><img src="img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Est Eligendi</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $8.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-4.png" class="glightbox"><img src="img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="img/menu/menu-item-5.png" class="glightbox"><img src="img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
-
-            </div>
-          </div><!-- End Dinner Menu Content -->
-
-        </div>
-
-      </div>
-    </section><!-- End Menu Section -->
+                </div>
+            </section><!-- End Menu Section -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">

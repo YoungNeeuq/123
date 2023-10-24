@@ -4,7 +4,6 @@ package guest.controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 import dal.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -92,7 +91,7 @@ public class RegisterServlet extends HttpServlet {
 
             String username = request.getParameter("username");
             String email = request.getParameter("email");
-           
+
             String password = request.getParameter("password");
             Encoder encoder = Base64.getEncoder();
             String encodePass = encoder.encodeToString(password.getBytes());
@@ -112,13 +111,13 @@ public class RegisterServlet extends HttpServlet {
             if (nameNull) {
                 if (nameValid) {
                     if (nameAdmin) {
-                       
-                            if (customerDAO.getCustomerUserName(username) != null) {
-                              
-                                request.setAttribute("tbTk", "Tài khoản đã tồn tại");
-                                
-                            }
-                       
+
+                        if (customerDAO.getCustomerUserName(username) != null) {
+
+                            request.setAttribute("tbTk", "Tài khoản đã tồn tại");
+
+                        }
+
                     } else {
                         request.setAttribute("tbTk", "Vui lòng nhập tài khoản không chứa từ đặc biệt");
                     }
@@ -132,7 +131,7 @@ public class RegisterServlet extends HttpServlet {
             if (emailNull) {
                 if (emailValid) {
                     try {
-                        if (customerDAO.getCustomerEmail(email)!= null) {
+                        if (customerDAO.getCustomerEmail(email) != null) {
                             request.setAttribute("tbEmail", "Email đã tồn tại");
                         }
                     } catch (Exception ex) {
@@ -166,59 +165,72 @@ public class RegisterServlet extends HttpServlet {
             try {
                 //        ------------------------------------------
                 if (nameNull && nameValid && emailNull && emailValid && passNull && passValid && pass2Null && pass2Valid
-                        && nameAdmin && customerDAO.getCustomerUserName(username) == null && customerDAO.getCustomerEmail(email)==null) {
+                        && nameAdmin && customerDAO.getCustomerUserName(username) == null && customerDAO.getCustomerEmail(email) == null) {
                     try {
-                         RequestDispatcher dispatcher = null;
-        int otpvalue = 0;
-        HttpSession mySession = request.getSession();
+                        RequestDispatcher dispatcher = null;
+                        int otpvalue = 0;
+                        HttpSession mySession = request.getSession();
 
-        if (email != null || !email.equals("")) {
-            // sending otp
-            Random rand = new Random();
-            otpvalue = rand.nextInt(1255650);
+                        if (email != null || !email.equals("")) {
+                            // sending otp
+                            Random rand = new Random();
+                            otpvalue = rand.nextInt(1255650);
 
-            String to = email;// change accordingly
+                            String to = email;// change accordingly
 
-            // Get the session object
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
-            Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("anhhoangduc145@gmail.com", "wubnvlrqqzhmwjho");// Put your email
-                    // password here
-                }
-            });
-            // compose message
-            try {
-                MimeMessage message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(email));// change accordingly
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                message.setSubject("Create new account");
-                message.setText("Your OTP is: " + otpvalue);
-                // send message
-                Transport.send(message);
-                System.out.println("message sent successfully");
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            }
-            dispatcher = request.getRequestDispatcher("OtpNewAccount.jsp");
-            request.setAttribute("message", "OTP is sent to your email");
+                            // Get the session object
+                            Properties props = new Properties();
+                            props.put("mail.smtp.host", "smtp.gmail.com");
+                            props.put("mail.smtp.socketFactory.port", "465");
+                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                            props.put("mail.smtp.auth", "true");
+                            props.put("mail.smtp.port", "465");
+                            Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+                                @Override
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication("anhhoangduc145@gmail.com", "wubnvlrqqzhmwjho");// Put your email
+                                    // password here
+                                }
+                            });
+                            // compose message
+                            try {
+                                MimeMessage message = new MimeMessage(session);
+                                message.setFrom(new InternetAddress(email));// change accordingly
+                                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                                message.setSubject("Mã OTP Xác Nhận Đăng Kí Tài Khoản Mới");
+                                message.setText("Chào bạn,\n"
+                                        + "\n"
+                                        + "Cảm ơn bạn đã đăng ký tài khoản tại FastFood Store. Để hoàn tất quá trình đăng ký, vui lòng sử dụng mã OTP dưới đây:\n"
+                                        + "\n"
+                                        + "Mã OTP của bạn là: " + otpvalue + "\n"
+                                        + "\n"
+                                        + "Vui lòng nhập mã OTP này vào trang đăng ký để kích hoạt tài khoản của bạn. Xin lưu ý rằng mã OTP này sẽ hết hạn sau 100 giây.\n"
+                                        + "\n"
+                                        + "Nếu bạn không yêu cầu mã OTP này, vui lòng liên hệ với chúng tôi ngay để bảo vệ tài khoản của bạn.\n"
+                                        + "\n"
+                                        + "Nếu bạn cần hỗ trợ hoặc có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với chúng tôi qua địa chỉ email [420ent@gmail.com] hoặc số điện thoại 086868686.\n"
+                                        + "\n"
+                                        + "Trân trọng,\n"
+                                        + "FastFood Store");
+                                // send message
+                                Transport.send(message);
+                                System.out.println("message sent successfully");
+                            } catch (MessagingException e) {
+                                throw new RuntimeException(e);
+                            }
+                            dispatcher = request.getRequestDispatcher("OtpNewAccount.jsp");
+                            request.setAttribute("message", "OTP is sent to your email");
 
-            mySession.setAttribute("otp", otpvalue);
-            mySession.setAttribute("email", email);
-            dispatcher.forward(request, response);
-             response.sendRedirect("OtpNewAccount.jsp");
-        }
-                
+                            mySession.setAttribute("otp", otpvalue);
+                            mySession.setAttribute("email", email);
+                            dispatcher.forward(request, response);
+                            response.sendRedirect("OtpNewAccount.jsp");
+                        }
+
                     } catch (Exception ex) {
                         Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 } else {
 
                     request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -283,7 +295,6 @@ public class RegisterServlet extends HttpServlet {
 //        }
 //        return true;
 //    }
-
     private boolean isAdmin(String username) {
         if (username.contains("admin")) {
             return false;

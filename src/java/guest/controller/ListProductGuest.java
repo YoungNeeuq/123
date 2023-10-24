@@ -10,6 +10,7 @@ import dal.DishDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -59,19 +60,29 @@ public class ListProductGuest extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-       try {
+        try {
             DishDAO dishDao = new DishDAO();
-            ArrayList<Dish> list = dishDao.getAll(); 
-            request.setAttribute("lists", list); // request scope
+            ArrayList<Dish> list = dishDao.getAll();
+            request.setAttribute("listss", list); // request scope
+            ArrayList<Dish> breakfast = dishDao.getAll();
+            List<Dish> listTypeD = dishDao.getDishByType("d");
+            request.setAttribute("listTypeD", listTypeD);
+            request.setAttribute("break", breakfast);
+            List<Dish> listTypeC = dishDao.getDishByType("c");
+            request.setAttribute("listTypeC", listTypeC);
+            List<Dish> listPriceA = dishDao.getDishByPrice("ASC");
+            request.setAttribute("listPriceA", listPriceA);
+            List<Dish> listPriceD = dishDao.getDishByPrice("DESC");
+            request.setAttribute("listPriceD", listPriceD);
             request.getRequestDispatcher("guest.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ListProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

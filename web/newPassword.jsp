@@ -3,7 +3,7 @@
 <head>
 <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<title>Snippet - BBBootstrap</title>
+<title>FastFood</title>
 <link
 	href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'
 	rel='stylesheet'>
@@ -38,6 +38,7 @@
 							<h1>
 								<strong>Reset Password</strong>
 							</h1>
+                                                    
 						</div>
 						<div class="pt-3 pb-3">
 							<form class="form-horizontal" action="NewPassword" method="POST">
@@ -56,7 +57,10 @@
 											class="form-control border-info placeicon">
 									</div>
 								</div>
-							
+                                                                <div style="display: flex;
+    align-items: center;">
+                                                                    <span class="form-message mb-2" style="color:red; margin: 0 auto;">${tbsubmit}</span>
+                                                                </div>
 								<!-- Log in Button -->
 								<div class="form-group row justify-content-center">
 									<div class="col-3 px-3 mt-3">

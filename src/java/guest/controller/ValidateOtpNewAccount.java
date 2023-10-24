@@ -102,14 +102,14 @@ public class ValidateOtpNewAccount extends HttpServlet {
             Logger.getLogger(ValidateOtpNewAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
             } else {
-                request.setAttribute("message", "wrong otp");
+                request.setAttribute("message", "Mã OTP sai !");
                 dispatcher = request.getRequestDispatcher("OtpNewAccount.jsp");
                 dispatcher.forward(request, response);
 
             }
           } else 
           {
-               request.setAttribute("message", "otp is expired");
+               request.setAttribute("message", "Mã OTP đã hết hạn!");
                 dispatcher = request.getRequestDispatcher("OtpNewAccount.jsp");
                 dispatcher.forward(request, response);
           }

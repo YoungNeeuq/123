@@ -1,35 +1,54 @@
-<%-- 
-    Document   : index
-    Created on : Sep 28, 2023, 12:49:10 PM
-    Author     : Asus
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Cổng thanh toán VNPAY DEMO</title>
+        <!-- Bootstrap core CSS -->
+        <link href="assets/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Custom styles for this template -->
+        <link href="assets/jumbotron-narrow.css" rel="stylesheet">      
+        <script src="assets/jquery-1.11.3.min.js"></script>
     </head>
+
     <body>
 
-        <form action="LoginGoogle" method="post">
-            <!-- Các trường dữ liệu khác, ví dụ: -->
-            <input type="hidden" name="verified_email" value="<%= request.getAttribute("verified_email")%>" />
-            <input type="hidden" id ="id" name="id" value="<%= request.getAttribute("id")%>" />
-            <input type="hidden" id ="email" name="email" value="<%= request.getAttribute("email")%>" />
-            <!-- Các trường dữ liệu khác -->
-            <input type="submit" id="autoSubmitButton" style="display: none;" />
+         <div class="container">
+           <div class="header clearfix">
 
-        </form>
-
-
-        <script type="text/javascript">
-            // Chờ trang tải xong
-            window.onload = function () {
-                // Tự động gửi form khi trang tải xong
-                document.getElementById("autoSubmitButton").click();
-            };
+                <h3 class="text-muted">VNPAY DEMO</h3>
+            </div>
+                <div class="form-group">
+                    <button onclick="pay()">Giao dịch thanh toán</button><br>
+                </div>
+                <div class="form-group">
+                    <button onclick="querydr()">API truy vấn kết quả thanh toán</button><br>
+                </div>
+                <div class="form-group">
+                    <button onclick="refund()">API hoàn tiền giao dịch</button><br>
+                </div>
+            <p>
+                &nbsp;
+            </p>
+            <footer class="footer">
+                <p>&copy; VNPAY 2020</p>
+            </footer>
+        </div> 
+        <script>
+             function pay() {
+              window.location.href = "vnpay_pay.jsp";
+            }
+            function querydr() {
+              window.location.href = "vnpay_querydr.jsp";
+            }
+             function refund() {
+              window.location.href = "vnpay_refund.jsp";
+            }
         </script>
     </body>
 </html>
